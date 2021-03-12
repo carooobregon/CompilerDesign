@@ -21,6 +21,7 @@ grammar = """
     factor : PLUS var_cte | MINUS var_cte | var_cte | OPEN_PARENS expression CLOSE_PARENS
     tipo : INT | FLOAT
     var_cte : ID | CTE_FLOAT | CTE_INT | COLON
+
     MUL : "*"
     PRINT : "print"
     INT : "int"
@@ -56,8 +57,8 @@ grammar = """
     %ignore " "
 """
 def inputUser():
-     # archName = input("Enter file name with extension: \n")
-     file = open("correct.txt", "r", encoding="utf-8")
+     archName = input("Enter file name with extension: \n")
+     file = open(archName, "r", encoding="utf-8")
      user_input = file.read()
      return user_input
 
@@ -66,8 +67,8 @@ def main():
      calc_parser = Lark(grammar, parser='lalr', start="programa")
      calc = calc_parser.parse
      try:
-          # print(calc(code))
-          print("Programa Valido")
+          if(calc(code)):
+               print("Programa Valido")
      except Exception as ex:
           print("Programa Invalido")
 
