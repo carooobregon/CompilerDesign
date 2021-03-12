@@ -1,0 +1,12 @@
+program ab;
+var ab : int;
+{
+     print("hola");
+     ab = 3 * 2 + 1 * (2 + 2);
+     if(2 <> 2){
+          ab = 2*2;
+     } else {
+          print(2);
+     };
+     print("hola", ab, 2 * 2, 1);
+}
