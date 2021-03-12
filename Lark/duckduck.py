@@ -1,11 +1,14 @@
 from lark import Lark, Transformer, v_args
 
 grammar = """
-    start : expression
+    start : estatuto
+    estatuto : asignacion | condicion
+    asignacion : ID EQUALS expression SEMICOLON
+    condicion : IF OPEN_PARENS expression CLOSE_PARENS
     expression : exp LEFTOP exp | exp RIGHTOP exp | exp
     exp : termino | termino PLUS exp | termino MINUS exp
     termino : factor | factor MUL termino | factor DIV termino
-    factor : PLUS var_cte | MINUS var_cte | var_cte
+    factor : PLUS var_cte | MINUS var_cte | var_cte | OPEN_PARENS expression CLOSE_PARENS
     tipo : INT | FLOAT
     var_cte : ID | CTE_FLOAT | CTE_INT | COLON
 
@@ -65,7 +68,7 @@ def main():
      test()
 
 def test():
-     input = '3.2 * 2 - 2'
+     input = 'a = (3 * 8);'
      calc_parser = Lark(grammar, parser='lalr', transformer=CalculateTree())
      calc = calc_parser.parse
     #  parser = Lark(gramatica,start = "programa")
