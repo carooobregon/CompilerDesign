@@ -71,7 +71,7 @@ def main():
           if(calc(code)):
                print("Programa Valido")
      except Exception as ex:
-          print("Programa Invalido")
+          print("Programa Invalido", ex)
 
 if __name__=='__main__':
      main()

@@ -12,7 +12,7 @@ def analyzeCode(input):
         if(parser.parse(tokens).eval()):
             print("Programa Valido")
     except Exception as ex:
-          print("Programa Invalido")
+          print("Programa Invalido", ex)
 
 def inputUser():
      archName = input("Enter file name with extension: \n")

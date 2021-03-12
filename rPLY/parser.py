@@ -88,7 +88,7 @@ class Parser():
         @self.pg.production('termino : factor')
         def expression_parens(p):
             return Termino()
-            
+
         @self.pg.production('factor : OPEN_PARENS expresion CLOSE_PARENS')
         @self.pg.production('factor : PLUS var_cte')
         @self.pg.production('factor : MINUS var_cte')
@@ -106,10 +106,6 @@ class Parser():
         @self.pg.production('var_cte : CTE_INT')
         def expression_number(p):
             return Termino()
-
-        @self.pg.production("none : ")
-        def none(p):
-            return None
 
     def get_parser(self):
         return self.pg.build()
