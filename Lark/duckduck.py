@@ -2,7 +2,9 @@ from lark import Lark, Transformer, v_args
 
 grammar = """
     start : estatuto
-    estatuto : asignacion | condicion
+    estatuto : asignacion | condicion | escritura 
+    escritura : PRINT OPEN_PARENS help CLOSE_PARENS SEMICOLON
+    help : expression COMMA help | STRING | expression
     asignacion : ID EQUALS expression SEMICOLON
     condicion : IF OPEN_PARENS expression CLOSE_PARENS
     expression : exp LEFTOP exp | exp RIGHTOP exp | exp
@@ -68,7 +70,7 @@ def main():
      test()
 
 def test():
-     input = 'a = (3 * 8);'
+     input = 'print(2 * 3 , 2);'
      calc_parser = Lark(grammar, parser='lalr', transformer=CalculateTree())
      calc = calc_parser.parse
     #  parser = Lark(gramatica,start = "programa")
