@@ -1,12 +1,20 @@
 from lark import Lark, Transformer, v_args
 
 grammar = """
-    start : estatuto
-    estatuto : asignacion | condicion | escritura 
+    start : programa 
+    programa : PROGRAM ID SEMICOLON progaux bloque
+    progaux : vars | estatuto
+    vars : VAR ID COLON tipo SEMICOLON
+    bloque : OPEN_CURLY estatuto CLOSE_CURLY
+    estatuto : asignacion estatuto
+                | escritura estatuto
+                | condicion estatuto
+                | asignacion | condicion | escritura
     escritura : PRINT OPEN_PARENS help CLOSE_PARENS SEMICOLON
-    help : expression COMMA help | STRING | expression
+    help : expression COMMA help | STRING COMMA help | expression | STRING
     asignacion : ID EQUALS expression SEMICOLON
-    condicion : IF OPEN_PARENS expression CLOSE_PARENS
+    condicion : IF OPEN_PARENS expression CLOSE_PARENS bloque condhelper
+    condhelper : SEMICOLON | ELSE bloque SEMICOLON
     expression : exp LEFTOP exp | exp RIGHTOP exp | exp
     exp : termino | termino PLUS exp | termino MINUS exp
     termino : factor | factor MUL termino | factor DIV termino
@@ -49,36 +57,47 @@ grammar = """
 
 """
 
-@v_args(inline=True)    # Affects the signatures of the methods
-class CalculateTree(Transformer):
-    from operator import add, sub, mul, truediv as div, neg
-    number = float
-
-    def __init__(self):
-        self.vars = {}
-
-    def assign_var(self, name, value):
-        self.vars[name] = value
-        return value
-
-    def var(self, name):
-        try:
-            return self.vars[name]
-        except KeyError:
-            raise Exception("Variable not found: %s" % name)
 def main():
      test()
-
+     
 def test():
-     input = 'print(2 * 3 , 2);'
-     calc_parser = Lark(grammar, parser='lalr', transformer=CalculateTree())
+    #  input = '{print("hola"); ab = 3*2; if(2 > 2){ ab = 2*2; }else{print(2);}; print("hola");}'
+     correct_input = """
+          program ab;
+          var ab : int;
+          {
+               print("hola");
+               ab = 3 * 2 + 1 * (2 + 2);
+               if(2 > 2){
+                    ab = 2*2;
+               } else {
+                    print(2);
+               };
+               print("hola", ab, 2 * 2, 1);
+          }
+     """
+     incorrect_input = """
+          program ab;
+          var ab : int;
+          
+               print("hola");
+               ab = 3 * 2 + 1 * (2 + 2);
+               if(2 > 2){
+                    ab = 2*2;
+               } else {
+                    print(2);
+               };
+               print("hola", ab, 2 * 2, 1);
+          }
+     """
+     calc_parser = Lark(grammar, parser='lalr')
      calc = calc_parser.parse
     #  parser = Lark(gramatica,start = "programa")
      try:
-          print(calc(input))
+          if(calc(correct_input)):
+               print("Programa Valido")
      except Exception as ex:
           print("parsing failed")
-          print (ex)
      # print(parser.parse(test_lilduck1).pretty())
      # print(parser.parse(test_lilduck2).pretty())
 
