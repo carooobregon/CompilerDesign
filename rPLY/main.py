@@ -8,42 +8,21 @@ def analyzeCode(input):
     pg = Parser()
     pg.parse()
     parser = pg.get_parser()
-    print(parser.parse(tokens).eval())
+    try:
+        if(parser.parse(tokens).eval()):
+            print("Programa Valido")
+    except Exception as ex:
+          print("Programa Invalido")
+
+def inputUser():
+     archName = input("Enter file name with extension: \n")
+     file = open(archName, "r", encoding="utf-8")
+     user_input = file.read()
+     return user_input
 
 def main():
-    correct_test = """
-        program main;
-        var myVar: int;
-        {
-            myVar = 2 * 2;
-            print(myVar);
-            if(myVar > 3){
-                myVar = (3.2 + 1) / 7;
-            } else {
-                myVar = (3 - 1) * 7;
-            };
-            print("RESULTADO" , myVar, 200);
-        }
-    """
-
-    ## Missing opening curly brace
-    incorrect_test = """
-        program main;
-        var myVar: int;
-        
-            myVar = 2 * 2;
-            print(myVar);
-            if(myVar > 3){
-                myVar = (3.2 + 1) / 7;
-            } else {
-                myVar = (3 - 1) * 7;
-            };
-            print("RESULTADO" , myVar, 200);
-        }
-    """
+    correct_test = inputUser()
     analyzeCode(correct_test)
-    analyzeCode(incorrect_test)
-
 
 if __name__=='__main__':
      main()# Stack example

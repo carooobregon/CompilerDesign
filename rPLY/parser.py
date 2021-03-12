@@ -8,7 +8,7 @@ class Parser():
             ['OPEN_PARENS', 'CLOSE_PARENS',
             'PLUS', 'MINUS', 'MUL', 'DIV', 'IF', 'ID', 'PROGRAM', 'COLON', 'LEFTOP', 'RIGHTOP',
             'EQUALS', 'SEMICOLON', 'STRING', 'PRINT', 'OPEN_CURLY', 'CLOSE_CURLY', 'ELSE', 'VAR', 'COMMA', 'INT',
-            'FLOAT', 'CTE_INT', 'CTE_FLOAT'
+            'FLOAT', 'CTE_INT', 'CTE_FLOAT', 'NOTEQ'
             ],
             # A list of precedence rules with ascending precedence, to
             # disambiguate ambiguous production rules.
@@ -79,6 +79,7 @@ class Parser():
         def expression_parens(p):
             return Termino()
 
+        @self.pg.production('expresion : exp NOTEQ exp')
         @self.pg.production('expresion : exp LEFTOP exp')
         @self.pg.production('expresion : exp RIGHTOP exp')
         @self.pg.production('expresion : exp')

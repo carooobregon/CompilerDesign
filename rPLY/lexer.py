@@ -23,6 +23,7 @@ class Lexer():
         self.lexer.add('COLON', r'\:')
         self.lexer.add('LEFTOP', r'\>')
         self.lexer.add('RIGHTOP', r'\<')
+        self.lexer.add('NOTEQ', r'\<>')
         self.lexer.add('EQUALS', r'\=')
         self.lexer.add('SEMICOLON', r'\;')
         self.lexer.add("STRING", r"\"([^\"\\]|\\.)*\"")

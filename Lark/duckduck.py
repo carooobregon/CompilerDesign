@@ -56,6 +56,7 @@ grammar = """
     %ignore WS_INLINE
     %ignore " "
 """
+
 def inputUser():
      archName = input("Enter file name with extension: \n")
      file = open(archName, "r", encoding="utf-8")
